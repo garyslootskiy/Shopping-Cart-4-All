@@ -7,7 +7,9 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <Title />
+      <div className="title-bar">
+        <Title />
+      </div>
       <Cart />
     </div>
   );
@@ -119,10 +121,12 @@ class Cart extends Component {
     // item.store
     
     return (
-      <div>
+      <div className="cart1">
         {shopList}
-        <AddItem addItem = {this.addItem}/>
-    <span>Total: ${this.state.total}</span>
+        <div className="bottom-bar">
+          <AddItem addItem = {this.addItem}/>
+          <div className="total">Total: <strong>${this.state.total}</strong></div>
+        </div>
       </div>
     )
   }
@@ -145,9 +149,8 @@ class Item extends Component {
 class AddItem extends Component {
   render() {
     return (
-      <div>
-      <hr></hr>
-      <button onClick={() => this.props.addItem()}>Add Item</button>
+    <div>
+      <button className="add-button" onClick={() => this.props.addItem()}>Add Item</button>
     </div>
     )
   }

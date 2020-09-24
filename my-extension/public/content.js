@@ -41,10 +41,11 @@
       }
 
       if (hostCheck == 'www.target.com') {
-        price =  document.getElementsByClassName("style__PriceFontSize-sc-17wlxvr-0")[0].innerText.trim().slice(1);
+        // name = document.querySelector("div[data-test='product-price']").innerText;
         store = 'Target';
         name = document.getElementsByClassName("Heading__StyledHeading-sc-1m9kw5a-0")[0].innerText;
         image =  document.getElementsByClassName("styles__ThumbnailImage-beej2j-11")[0].src;
+        price =  document.getElementsByClassName("style__PriceFontSize-sc-17wlxvr-0")[0].innerText.trim().slice(1);
       }
 
       if (hostCheck == 'www.walmart.com') {
