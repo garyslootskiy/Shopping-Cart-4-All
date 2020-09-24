@@ -25,7 +25,8 @@ class Cart extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cart: []
+      cart: [],
+      total: 0
     }
 
     this.addItem = this.addItem.bind(this);
@@ -39,7 +40,7 @@ class Cart extends Component {
       qty: 1,
       name: localStorage.getItem('name'),
       imageUrl: localStorage.getItem('image'),
-      price: localStorage.getItem('price'),
+      price: parseFloat(localStorage.getItem('price')).toFixed(2),
       url: localStorage.getItem('url'),
       store: localStorage.getItem('store')
     }
@@ -49,9 +50,15 @@ class Cart extends Component {
     
     localStorage.setItem('cart', stringified);
 
+    let total = 0;
+    cart.forEach(item => {
+      total += parseInt(item.price);
+    });
+
     const newState = {
       ...this.state,
-      cart
+      cart,
+      total
     }
     this.setState(newState);
   }
@@ -65,9 +72,15 @@ class Cart extends Component {
     
     localStorage.setItem('cart', stringified);
 
+    let total = 0;
+    cart.forEach(item => {
+      total += parseInt(item.price);
+    });
+
     const newState = {
       ...this.state,
-      cart
+      cart,
+      total
     }
     this.setState(newState);
   }
@@ -75,10 +88,15 @@ class Cart extends Component {
   componentDidMount() {
     let cart = JSON.parse(localStorage.getItem('cart'));
     if(!cart) cart = [];
+    let total = 0;
+    cart.forEach(item => {
+      total += parseInt(item.price);
+    });
     
     const newState = {
       ...this.state,
-      cart
+      cart,
+      total
     }
     this.setState(newState);
   }
@@ -87,7 +105,7 @@ class Cart extends Component {
     const shopList = [];
     this.state.cart.forEach((item,index) => {
       const { qty, name, imageUrl, price, url, store } = item;
-      shopList.push(<Item className={"listItems"} qty={qty} name={name} imageUrl={imageUrl} price={price} url={url} store={store} indexItem={index} key={`Item${index}`} removeItem={this.removeItem}/>);
+      shopList.push(<Item className="listItems" qty={qty} name={name} imageUrl={imageUrl} price={price} url={url} store={store} indexItem={index} key={`Item${index}`} removeItem={this.removeItem}/>);
     });
 
     
@@ -104,6 +122,7 @@ class Cart extends Component {
       <div>
         {shopList}
         <AddItem addItem = {this.addItem}/>
+    <span>Total: ${this.state.total}</span>
       </div>
     )
   }
@@ -112,14 +131,12 @@ class Cart extends Component {
 class Item extends Component {
   render() {
     return (
-      <div className={"itemDiv"}>
-        <hr></hr>
-        <span><img src={this.props.imageUrl} className={"images"} /></span>
-        <span><a href={this.props.url}>{this.props.name}</a></span>
-        <span>{this.props.qty}</span>
-        <span>{this.props.price}</span>
+      <div className="itemDiv">
+        <span><img className="images" src={this.props.imageUrl} alt="Display Item"/></span>
+        <span className={this.props.className}><a href={this.props.url} >{this.props.name}</a></span>
+        <span className={this.props.className + " price"}>${this.props.price}</span>
         <span>{this.props.store}</span>
-        <button onClick={() => this.props.removeItem(this.props.indexItem)}>REMOVE ITEM</button>
+        <button className={this.props.className + " remove"} onClick={() => this.props.removeItem(this.props.indexItem)}> - </button>
       </div>
     )
   }

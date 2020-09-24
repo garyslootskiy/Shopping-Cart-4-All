@@ -23,12 +23,37 @@
     var readyStateCheckInterval = setInterval(function() {
     if (document.readyState === "complete") {
       clearInterval(readyStateCheckInterval);
-      
-      const price =  document.evaluate('/html/body/div[4]/main/div[1]/div[3]/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[1]/div/span[1]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML;
-      const store = 'bestbuy';
-      const name = document.getElementsByClassName("heading-5 v-fw-regular")[0].innerHTML;
+    
+      let price = '0';
+      let store = 'none';
+      let name = 'none';
+      let image;
       const url = window.location.href;
-      const image =  document.getElementsByClassName("primary-image")[0].src;
+      const hostCheck =  window.location.hostname;
+      
+      if (hostCheck == 'www.bestbuy.com') {
+        store = 'BestBuy';
+        name = document.getElementsByClassName("heading-5 v-fw-regular")[0].innerHTML;
+        image = document.getElementsByClassName("primary-image")[0].src;
+        price = document.getElementsByClassName("priceView-hero-price priceView-customer-price")[0].innerText;
+        let pattern = /\d+(?:\.\d+)?/g;
+        price = pattern.exec(price);
+      }
+
+      if (hostCheck == 'www.target.com') {
+        price =  document.getElementsByClassName("style__PriceFontSize-sc-17wlxvr-0")[0].innerText.trim().slice(1);
+        store = 'Target';
+        name = document.getElementsByClassName("Heading__StyledHeading-sc-1m9kw5a-0")[0].innerText;
+        image =  document.getElementsByClassName("styles__ThumbnailImage-beej2j-11")[0].src;
+      }
+
+      if (hostCheck == 'www.walmart.com') {
+        price =  document.getElementsByClassName("price-characteristic")[0].innerHTML;
+        store = 'Walmart';
+        name = document.getElementsByClassName("prod-ProductTitle")[0].innerHTML;
+        image =  document.getElementsByClassName("hover-zoom-hero-image")[0].src;
+      }
+      
       chrome.runtime.sendMessage({
         url: url,
         name: name,
@@ -36,7 +61,6 @@
         store: store,
         image: image
           // price: document.getElementById("priceView-customer-price")
-        })
-    }
-    }, 10);
+        });
+      }}, 10);
   });
