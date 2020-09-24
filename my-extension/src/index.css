@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#title {
+  color: rgb(44, 122, 211);
+
+}
+
+.itemDiv {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 10em;
+  max-height: 4.5em;
+}
+
+.listItems {
+  max-width: 10em;
+  max-height: 5em;
+  text-align: center;
+}
+
+.images {
+  width: 3.5em;
+  height: 3.5em;
+}

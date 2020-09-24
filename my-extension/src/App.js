@@ -16,7 +16,7 @@ function App() {
 function Title() {
   return (
     <div>
-      <h1>SHOPPING CART FOR ALL</h1>
+      <h1 id="title">SHOPPING CART FOR ALL</h1>
     </div>
   )
 }
@@ -32,17 +32,16 @@ class Cart extends Component {
     this.removeItem = this.removeItem.bind(this);
   }
 
-  addItem(url) {
-
+  addItem() {
     
     const cart = this.state.cart.slice();
     let item = {
       qty: 1,
-      name: "item name ",
-      imageUrl: "./logo.svg",
-      price: "$55",
-      url: url,
-      store: "Amazon"
+      name: localStorage.getItem('name'),
+      imageUrl: localStorage.getItem('image'),
+      price: localStorage.getItem('price'),
+      url: localStorage.getItem('url'),
+      store: localStorage.getItem('store')
     }
     cart.push(item);
 
@@ -88,7 +87,7 @@ class Cart extends Component {
     const shopList = [];
     this.state.cart.forEach((item,index) => {
       const { qty, name, imageUrl, price, url, store } = item;
-      shopList.push(<Item qty={qty} name={name} imageUrl={imageUrl} price={price} url={url} store={store} indexItem={index} key={`Item${index}`} removeItem={this.removeItem}/>);
+      shopList.push(<Item className={"listItems"} qty={qty} name={name} imageUrl={imageUrl} price={price} url={url} store={store} indexItem={index} key={`Item${index}`} removeItem={this.removeItem}/>);
     });
 
     
@@ -113,13 +112,12 @@ class Cart extends Component {
 class Item extends Component {
   render() {
     return (
-      <div>
+      <div className={"itemDiv"}>
         <hr></hr>
-        <span>{this.props.name}</span>
+        <span><img src={this.props.imageUrl} className={"images"} /></span>
+        <span><a href={this.props.url}>{this.props.name}</a></span>
         <span>{this.props.qty}</span>
-        <span>{this.props.imageUrl}</span>
         <span>{this.props.price}</span>
-        <span>{this.props.url}</span>
         <span>{this.props.store}</span>
         <button onClick={() => this.props.removeItem(this.props.indexItem)}>REMOVE ITEM</button>
       </div>
@@ -132,7 +130,7 @@ class AddItem extends Component {
     return (
       <div>
       <hr></hr>
-      <button onClick={() => this.props.addItem(window.location.href)}>Add Item</button>
+      <button onClick={() => this.props.addItem()}>Add Item</button>
     </div>
     )
   }

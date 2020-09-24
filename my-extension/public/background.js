@@ -9,3 +9,24 @@
 //         );
 //   });
 // });
+
+// //contentScript.js
+// const item = {};
+// item.name = document.getElementsByClassName("heading-5");
+// item.price = document.getElementsByClassName("priceView-customer-price");
+// return item;
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse){
+     localStorage["url"] = request.url;
+     localStorage["name"] = request.name;
+     localStorage["price"] = request.price;
+     localStorage["store"] = request.store;
+     localStorage["image"] = request.image;
+     sendResponse();
+  }
+);
+// //contentScript.js
+// const item = {};
+// item.name = document.getElementsByClassName("heading-5");
+// item.price = document.getElementsByClassName("priceView-customer-price");
+// return item;
